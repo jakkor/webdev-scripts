@@ -1,0 +1,15 @@
+Simple script to help webdevelopers working with git.
+
+It will create folder with files from last commit, or any commit that we choose with the same folder structure as in our project. After that to update live server or maybe dev server we just need to copy content of this folder to our server.
+
+We can choose from what commit script will start looking for changed files and on what commit it should stop.
+
+Usage:
+
+usage: webdev-scripts-git [--version] [--start <commit>] [--finish <commit>] [-o <outputPath>]"
+
+If we won't specify start commit it will started from Head^
+
+If we won't specify finish it will end on HEAD
+
+If we won't specify output path it will create PrepareUpload folder in working directory and copy necessary files to this folder. 

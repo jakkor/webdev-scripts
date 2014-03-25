@@ -1,0 +1,77 @@
+#!/bin/bash
+
+VERSION=1.0
+
+while test $# -gt 0; do
+	case "$1" in
+		--start)
+			shift
+			if test $# -gt 0; then
+				startCommit=$1
+			else
+				echo "No start commit specified"
+				exit;
+			fi
+			shift
+			;;
+		--finish)
+			shift
+			if test $# -gt 0; then
+				finishCommit=$1
+			else
+				echo "No finish commit specified"
+				exit;
+			fi
+			shift
+			;;
+		-o|--output)
+			shift
+			if test $# -gt 0; then
+				outputFolder=$1
+			else
+				echo "No output folder specified"
+				exit;
+			fi
+			;;
+		-v|--version)
+			shift
+			echo "Version: $VERSION"
+			exit;
+			;;
+	esac
+done
+
+if [[ -z $startCommit ]]; then
+	startCommit="HEAD^"
+fi
+
+if [[ -z $finishCommmit ]]; then
+	finishCommit=HEAD
+fi
+
+if [[ -z $outputFolder ]]; then
+	outputFolder=PreparedUpload
+fi
+
+outputPath=$(pwd)/$outputFolder
+
+echo
+echo "usage: git-prepare-upload [--version] [--start <commit>] [--finish <commit>] [-o <outputPath>]"
+echo
+echo "------------------------- Script Start ------------------------------------"
+echo "Copying changed files from range: $startCommit..$finishCommit"
+echo "Output folder : $outputPath"
+echo "-------------------------------------------------------------"
+echo "Prepared Files: "
+
+for i in $(git diff --name-only $startCommit $finishCommit)
+do
+       	#Create output folder if it doesn't exist
+	mkdir -p "$outputFolder/$(dirname $i)"
+
+	#Copy all necessary files to this folder
+        cp "$i" "$outputFolder/$i"
+	echo "$i" to "$outputFolder/$i"
+done
+
+echo "------------------------- Script Finish ------------------------------------"

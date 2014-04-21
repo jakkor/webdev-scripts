@@ -43,6 +43,8 @@ done
 
 if [[ -z $startCommit ]]; then
 	startCommit="HEAD^"
+else
+	startCommit=$startCommit^
 fi
 
 if [[ -z $finishCommmit ]]; then

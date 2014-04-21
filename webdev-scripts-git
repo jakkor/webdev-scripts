@@ -72,8 +72,11 @@ do
 	mkdir -p "$outputFolder/$(dirname $i)"
 
 	#Copy all necessary files to this folder
+	if ! [[ $i == *.gitignore* ]]
+	then
         cp "$i" "$outputFolder/$i"
-	echo "$i" to "$outputFolder/$i"
+		echo "$i" to "$outputFolder/$i"
+	fi
 done
 
 echo "------------------------- Script Finish ------------------------------------"
